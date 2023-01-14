@@ -1,0 +1,5 @@
+data0 
+data1 $ 1
+data2 
+data3 $ 0
+datad 3 4
