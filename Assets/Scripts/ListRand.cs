@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
 public class ListRand : MonoBehaviour
 {
-
     public ListNode head;
     public ListNode tail;
     public int count;
@@ -35,11 +32,12 @@ public class ListRand : MonoBehaviour
         ListNode previousNode = null, currentNode = null;
         string anotherNode;
 
-        while((anotherNode = sr.ReadLine()) != null) { // Getting number of lines
+        while((anotherNode = sr.ReadLine()) != null) {
             count++;
         }
 
-        int[] randBuffer = new int[count]; // Creating array that references to rand pointer in our list
+        // Creating array that references to rand pointer in list
+        int[] randBuffer = new int[count];
         count = 0;
         sr.BaseStream.Position = 0;
         
@@ -67,39 +65,39 @@ public class ListRand : MonoBehaviour
             }
         }
 
-        ListNode ponentiallySpecifiedNode; // currentNode points on specified node
-        currentNode = ponentiallySpecifiedNode = head; // Placing both of pointers on head position
+        ListNode potentiallySpecifiedNode;
+        currentNode = potentiallySpecifiedNode = head;
         
-        /// <summary>
-        /// m-index provides access to randBuffer array
-        /// k-index provides node indexing in list for potential specified node check
-        /// </summary>
-        /// <value></value>
+        // m-index provides access to randBuffer array
+        // k-index provides node indexing in list for potential specified node check
         for(int k = 0, m = 0; k < randBuffer.Length; k++) {
             if (randBuffer[m] == k) {
-                currentNode.rand = ponentiallySpecifiedNode;
+                currentNode.rand = potentiallySpecifiedNode;
 
                 if (currentNode.next == null) {
                     break;
                 }
 
                 currentNode = currentNode.next;
-                ponentiallySpecifiedNode = head;
+                potentiallySpecifiedNode = head;
                 m++; k = -1;
                 continue;
             }
 
             if (k == randBuffer.Length - 1) {
-                if (m == k) { // If we reached the end of randBuffer and checked all of ListNodes - stop
+                // If we reached the end of randBuffer and checked all of ListNodes - stop
+                if (m == k) {
                     break;
-                } else { // Otherwise take next randBuffer value and repeat
+                // Otherwise take next randBuffer value and repeat
+                } else { 
                     m++; k = -1;
                     currentNode = currentNode.next;
-                    ponentiallySpecifiedNode = head;
+                    potentiallySpecifiedNode = head;
                     continue;
                 }
             }
-            ponentiallySpecifiedNode = ponentiallySpecifiedNode.next; // move potential specified node along with k-index
+            // Move potential specified node along with k-index
+            potentiallySpecifiedNode = potentiallySpecifiedNode.next;
         }
     }
 
@@ -110,8 +108,9 @@ public class ListRand : MonoBehaviour
         
         if (head != null) { 
             ListNode currentNode = head, specifiedNode = head;
-
-            int[] randBuffer = count > 0 ?  new int[count] : new int[GetListLenght()]; // Creating array that references to rand pointer in our list
+            
+            // Creating array that references to rand pointer in our list
+            int[] randBuffer = count > 0 ?  new int[count] : new int[GetListLenght()];
 
             for(int k = 0, m = 0; k < randBuffer.Length; k++) {
                 if (currentNode.rand == specifiedNode) {
@@ -121,23 +120,30 @@ public class ListRand : MonoBehaviour
                         break;
                     }
 
-                    currentNode = currentNode.next; m++; // Move current pointer
-                    specifiedNode = head; k = -1; // Refresh check-pointer
+                    // Move current pointer
+                    currentNode = currentNode.next; 
+                    m++;
+                    // Refresh check-pointer
+                    specifiedNode = head; 
+                    k = -1;
                     continue;
                 }
 
-                if (k == randBuffer.Length - 1) { // specifiedNode.Next == null also valid condition statement but unsafe
+                // specifiedNode.Next == null also valid condition statement but unsafe
+                if (k == randBuffer.Length - 1) {
                     sw.WriteLine(currentNode.data);
                     
                     if (m == k) {
                         break;
                     } else {
-                        currentNode = currentNode.next; m++; // Move current pointer
-                        specifiedNode = head; k = -1; // Refresh check-pointer
+                        // Move current pointer
+                        currentNode = currentNode.next;
+                        m++;
+                        // Refresh check-pointer
+                        specifiedNode = head;
+                        k = -1;
                         continue;
                     }
-
-
                 }
                 specifiedNode = specifiedNode.next;
             }
@@ -152,7 +158,8 @@ public class ListRand : MonoBehaviour
         ListNode newNode = new ListNode();
         string[] splittedRawNode = rawTextedNode.Split('$');
         
-        if (splittedRawNode.Length > 1) { // if split returns more then 1 parts of primary string
+        // If split returns more then 1 parts of primary string
+        if (splittedRawNode.Length > 1) {
             try {
                 newNode.data = splittedRawNode[0];
                 randElement = Mathf.Abs(System.Convert.ToInt32(splittedRawNode[1]));
@@ -161,7 +168,7 @@ public class ListRand : MonoBehaviour
                 newNode.data = splittedRawNode[0];
                 randElement = -1;
             }
-            catch (System.OverflowException) { // Maybe crop splittedRawMode[1] for fitting int32 format ?
+            catch (System.OverflowException) {
                 newNode.data = splittedRawNode[0];
                 randElement = -1;
             }
